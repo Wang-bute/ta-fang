@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>她方酒吧智能体验系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f9f0ff 0%, #f5e6ff 100%);
+            color: #4a2c5f;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(156, 39, 176, 0.1);
+            border-left: 5px solid #9c27b0;
+        }
+        
+        h1 {
+            background: linear-gradient(90deg, #8e24aa, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            color: #7b1fa2;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+        
+        section {
+            background: #fff;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(156, 39, 176, 0.1);
+            border-left: 5px solid #9c27b0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(156, 39, 176, 0.15);
+        }
+        
+        h2 {
+            color: #7b1fa2;
+            border-bottom: 2px solid #e1bee7;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #6a1b9a;
+            font-weight: 600;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e91e63;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ce93d8;
+            background-color: #fce4ec;
+            color: #4a148c;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #9c27b0;
+            box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.2);
+            background-color: #fff;
+        }
+        
+        .emergency-contacts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .sober-soup-section {
+            text-align: center;
+        }
+        
+        .sober-soup-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .soup-option {
+            width: 200px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #f8f5fa;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .soup-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(156, 39, 176, 0.2);
+        }
+        
+        .soup-option.selected {
+            border-color: #9c27b0;
+            background: #f3e5f5;
+        }
+        
+        .soup-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #9c27b0;
+        }
+        
+        .soup-name {
+            font-weight: bold;
+            color: #6a1b9a;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .soup-desc {
+            font-size: 0.9rem;
+            color: #7e57c2;
+            margin-bottom: 10px;
+        }
+        
+        .soup-benefits {
+            font-size: 0.85rem;
+            color: #9575cd;
+            font-style: italic;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #8e24aa, #e91e63);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(156, 39, 176, 0.3);
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #7b1fa2, #c2185b);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(156, 39, 176, 0.4);
+        }
+        
+        .environment-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .environment-buttons button {
+            flex: 1;
+            min-width: 160px;
+            background: linear-gradient(135deg, #ab47bc, #e91e63);
+        }
+        
+        #environment-details {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f5fa;
+            border-radius: 8px;
+            border-left: 4px solid #ba68c8;
+        }
+        
+        .menu-section {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .item {
+            border-bottom: 1px solid #e1bee7;
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .item:hover {
+            background-color: #f3e5f5;
+            border-radius: 6px;
+            padding-left: 10px;
+        }
+        
+        .item label {
+            margin: 0;
+            margin-left: 10px;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        input[type="checkbox"] {
+            accent-color: #9c27b0;
+            transform: scale(1.2);
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .service-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .final-submit {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .final-submit button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+        
+        #data-display {
+            background-color: #f8f5fa;
+            border: 2px dashed #ba68c8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        #submitted-data {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border: 1px solid #e1bee7;
+            font-family: monospace;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #8e24aa, #e91e63);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .emergency-contacts {
+                grid-template-columns: 1fr;
+            }
+            
+            .environment-buttons {
+                flex-direction: column;
+            }
+            
+            .sober-soup-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .service-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>她方酒吧智能体验系统</h1>
+            <p class="tagline">专属女性的温馨空间，享受微醺时光</p>
+        </header>
+        
+        <div class="notification" id="notification"></div>
+        
+        <!-- 用户信息登记 -->
+        <section id="user-info">
+            <h2>用户信息登记</h2>
+            <div class="form-group">
+                <label class="required">姓名：</label>
+                <input type="text" id="userName" placeholder="请输入您的姓名" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">性别：</label>
+                <select id="gender" required>
+                    <option value="">请选择</option>
+                    <option value="female">女性</option>
+                    <option value="male">男性</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">手机号码：</label>
+                <input type="tel" id="phone" placeholder="请输入您的手机号码" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">喜好环境：</label>
+                <select id="environment-type" required>
+                    <option value="">请选择</option>
+                    <option value="heavy">重度热闹</option>
+                    <option value="moderate">中度热闹</option>
+                    <option value="light">轻度热闹</option>
+                    <option value="quiet">清吧</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">能接受酒精程度：</label>
+                <select id="alcohol-level" required>
+                    <option value="">请选择</option>
+                    <option value="micro">微醺三度到十二度</option>
+                    <option value="moderate">中度十二度到二十度</option>
+                    <option value="heavy">重度二十度到四十五度</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">是否有酒精过敏史：</label>
+                <select id="allergy" required>
+                    <option value="">请选择</option>
+                    <option value="yes">有</option>
+                    <option value="no">无</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">目的：</label>
+                <select id="purpose" required>
+                    <option value="">请选择</option>
+                    <option value="personal">个人小酌</option>
+                    <option value="group">朋友聚会</option>
+                    <option value="date">约会</option>
+                    <option value="business">商务洽谈</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">紧急联系人信息：</label>
+                <div class="emergency-contacts">
+                    <div>
+                        <input type="text" id="emergency1" placeholder="联系人1姓名" required>
+                        <input type="tel" id="emergencyPhone1" placeholder="联系人1电话" required>
+                    </div>
+                    <div>
+                        <input type="text" id="emergency2" placeholder="联系人2姓名">
+                        <input type="tel" id="emergencyPhone2" placeholder="联系人2电话">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label><input type="checkbox" id="changeRoom"> 需要临时衣物更换间</label>
+                <label><input type="checkbox" id="accommodation"> 需要提供住宿</label>
+                <label><input type="checkbox" id="transport"> 需要出行服务</label>
+            </div>
+        </section>
+        
+        <!-- 醒酒汤选择 -->
+        <section class="sober-soup-section">
+            <h2>选择醒酒汤</h2>
+            <p>我们提供三种精选醒酒汤，帮助您缓解酒后不适</p>
+            
+            <div class="sober-soup-options">
+                <div class="soup-option" onclick="selectSoberSoup('tomato')">
+                    <div class="soup-icon">🍅</div>
+                    <div class="soup-name">番茄汁</div>
+                    <div class="soup-desc">富含维生素C，缓解酒后不适</div>
+                    <div class="soup-benefits">富含番茄红素，帮助酒精代谢</div>
+                </div>
+                
+                <div class="soup-option" onclick="selectSoberSoup('rice')">
+                    <div class="soup-icon">🍚</div>
+                    <div class="soup-name">米汤</div>
+                    <div class="soup-desc">温和养胃，缓解胃部不适</div>
+                    <div class="soup-benefits">易消化，保护胃黏膜</div>
+                </div>
+                
+                <div class="soup-option" onclick="selectSoberSoup('mungbean')">
+                    <div class="soup-icon">🥣</div>
+                    <div class="soup-name">绿豆汤</div>
+                    <div class="soup-desc">清热解毒，帮助酒精代谢</div>
+                    <div class="soup-benefits">利尿解毒，缓解头痛</div>
+                </div>
+            </div>
+            
+            <button onclick="bookCongee()">预约醒酒汤</button>
+        </section>
+        
+        <!-- 环境选择 -->
+        <section id="environment-selection">
+            <h2>选择环境</h2>
+            <div class="environment-buttons">
+                <button onclick="selectEnvironment('heavy')">重度热闹</button>
+                <button onclick="selectEnvironment('moderate')">中度热闹</button>
+                <button onclick="selectEnvironment('light')">轻度热闹</button>
+                <button onclick="selectEnvironment('quiet')">清吧</button>
+            </div>
+            
+            <div id="environment-details"></div>
+        </section>
+        
+        <!-- 饮品选择 -->
+        <section id="drinks-selection">
+            <h2>选择饮品</h2>
+            <div>
+                <h3>奶茶系列 (10.9元/杯)</h3>
+                <div class="menu-section" id="milk-tea-list"></div>
+                
+                <h3>冷饮 (9.9元/杯)</h3>
+                <div class="menu-section" id="cold-drinks-list"></div>
+                
+                <h3>微醺饮品 (12.9元/杯)</h3>
+                <div class="menu-section" id="mild-intoxication-list"></div>
+                
+                <h3>中度酒精 (14.9元/杯)</h3>
+                <div class="menu-section" id="medium-alcohol-list"></div>
+                
+                <h3>重度酒精 (25元/杯)</h3>
+                <div class="menu-section" id="heavy-alcohol-list"></div>
+                
+                <div style="text-align:center; margin-top:20px;">
+                    <button onclick="submitOrder()">提交饮品订单</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 食品推荐 -->
+        <section id="food-selection">
+            <h2>食品推荐</h2>
+            <div>
+                <h3>酥脆炸物类</h3>
+                <div class="menu-section" id="crispy-foods"></div>
+                
+                <h3>肉香卤味类</h3>
+                <div class="menu-section" id="meat-foods"></div>
+                
+                <h3>海鲜小食类</h3>
+                <div class="menu-section" id="seafood-foods"></div>
+                
+                <h3>芝士/碳水类</h3>
+                <div class="menu-section" id="cheese-starchy"></div>
+                
+                <h3>凉拌/清爽类</h3>
+                <div class="menu-section" id="cold-refresh"></div>
+                
+                <h3>创意小食类</h3>
+                <div class="menu-section" id="creative-snacks"></div>
+                
+                <div style="text-align:center; margin-top:20px;">
+                    <button onclick="submitFoodOrder()">提交食品订单</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 额外服务 -->
+        <section id="additional-services">
+            <h2>额外服务</h2>
+            <div class="service-buttons">
+                <button onclick="bookService('sanitary')">女性卫生巾（免费）</button>
+                <button onclick="bookService('changeRoom')">预约更换衣物间</button>
+                <button onclick="bookService('accommodation')">预约住宿</button>
+                <button onclick="bookService('transport')">预约出行</button>
+            </div>
+        </section>
+        
+        <!-- 提交按钮 -->
+        <div class="final-submit">
+            <button id="final-submit" onclick="finalSubmit()">提交全部信息</button>
+        </div>
+        
+        <!-- 数据展示区域 -->
+        <section id="data-display">
+            <h2>您提交的数据</h2>
+            <pre id="submitted-data">数据将在这里显示...</pre>
+            <div style="text-align:center; margin-top:20px;">
+                <button onclick="downloadData()">下载数据</button>
+                <button onclick="clearData()" style="background:linear-gradient(135deg, #f44336, #d32f2f);">清除数据</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 模拟数据
+        const milkTeaItems = [
+            {name:'桂语暖香',price:10.9},
+            {name:'芋泥绵云奶霜',price:10.9},
+            {name:'姜撞奶麻薯',price:10.9},
+            {name:'红豆酒酿圆子',price:10.9},
+            {name:'栗香栗绒奶绿',price:10.9},
+            {name:'玫瑰芋圆醇乳',price:10.9},
+            {name:'焦糖烤奶布丁',price:10.9},
+            {name:'红枣桂圆奶醇',price:10.9},
+            {name:'抹茶红豆暖芋',price:10.9},
+            {name:'乌龙奶冻烧',price:10.9},
+            {name:'榛果可可奶咖',price:10.9},
+            {name:'陈皮红豆鲜奶',price:10.9},
+            {name:'燕麦栗泥奶茶',price:10.9},
+            {name:'茉莉奶绿麻薯',price:10.9},
+            {name:'红糖姜汁撞奶',price:10.9},
+        ];
+
+        const coldDrinksItems = [
+            {name:'青提气泡奶绿',price:9.9},
+            {name:'西瓜啵啵冰茶',price:9.9},
+            {name:'葡萄芝士奶盖',price:9.9},
+            {name:'荔枝玫瑰冰乳',price:9.9},
+            {name:'芒果糯米饭奶茶',price:9.9},
+            {name:'柠檬海盐奶绿',price:9.9},
+            {name:'蓝莓酸奶冰沙',price:9.9},
+            {name:'桃子乌龙雪顶',price:9.9},
+            {name:'百香果双响炮',price:9.9},
+            {name:'芋圆葡萄冰',price:9.9},
+            {name:'薄荷巧克力奶冰',price:9.9},
+            {name:'凤梨椰椰冰茶',price:9.9},
+            {name:'草莓奶冻撞冰',price:9.9},
+            {name:'西柚茉莉冷泡',price:9.9},
+            {name:'奥利奥碎冰奶茶',price:9.9},
+        ];
+
+        const mildDrinksItems = [
+            {name:'抹茶云栖',price:12.9},
+            {name:'青岚抹雪',price:12.9},
+            {name:'抹茶栗绒微醺',price:12.9},
+            {name:'竹影抹香',price:12.9},
+            {name:'抹茶莓果酿',price:12.9},
+            {name:'桃雾轻酌',price:12.9},
+            {name:'青提月光酒',price:12.9},
+            {name:'柑橘晚风酿',price:12.9},
+            {name:'荔枝碎冰饮',price:12.9},
+            {name:'葡萄梦境微醺',price:12.9},
+            {name:'西柚茉莉冷酿',price:12.9},
+            {name:'莓果星落酒',price:12.9}
+        ];
+
+        const mediumDrinksItems = [
+            {name:'焦糖威士忌奶咖',price:14.9},
+            {name:'黑加仑白兰地',price:14.9},
+            {name:'抹茶朗姆醇酿',price:14.9},
+            {name:'莓果金酒气泡',price:14.9},
+            {name:'蜂蜜肉桂朗姆',price:14.9},
+            {name:'西柚金汤力特调',price:14.9},
+            {name:'巧克力伏特加冰沙',price:14.9}
+        ];
+
+        const heavyDrinksItems = [
+            {name:'琥珀灼光',price:25},
+            {name:'黑松露马天尼',price:25},
+            {name:'肉桂波本燃',price:25},
+            {name:'烟熏梅子酿',price:25},
+            {name:'榛果白兰地醇',price:25}
+        ];
+
+        // 数据存储对象
+        let userData = {
+            personalInfo: {},
+            environment: {},
+            drinks: [],
+            food: [],
+            services: [],
+            soberSoup: null,
+            timestamp: null
+        };
+
+        // 渲染函数
+        function renderItems(containerId, items) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className='item';
+                div.innerHTML= `
+                    <input type="checkbox" data-name="${item.name}" data-price="${item.price}" id="${containerId}_item_${index}" />
+                    <label for="${containerId}_item_${index}">${item.name} — ¥${item.price}</label>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // 初始化
+        window.onload=function() {
+            renderItems('milk-tea-list', milkTeaItems);
+            renderItems('cold-drinks-list', coldDrinksItems);
+            renderItems('mild-intoxication-list', mildDrinksItems);
+            renderItems('medium-alcohol-list', mediumDrinksItems);
+            renderItems('heavy-alcohol-list', heavyDrinksItems);
+            renderItems('crispy-foods', [
+                {name:'椒盐黑松露薯条',price:28},
+                {name:'蒜香黄油鸡翅',price:36},
+                {name:'香辣酥脆鱿鱼圈',price:32},
+                {name:'芝士爆浆鸡块',price:30},
+                {name:'泰式酸辣虾片',price:22},
+                {name:'香煎培根卷金针菇',price:26},
+                {name:'酥脆洋葱圈',price:24},
+                {name:'孜然烤土豆角',price:25},
+            ]);
+            renderItems('meat-foods', [
+                {name:'秘制卤鸭脖',price:38},
+                {name:'酱香卤鸭舌',price:42},
+                {name:'麻辣卤鸡爪',price:35},
+                {name:'五香卤毛豆',price:18},
+                {name:'卤味拼盘',price:58},
+                {name:'香辣卤肥肠',price:45},
+                {name:'蒜香卤花生',price:16}
+            ]);
+            renderItems('seafood-foods', [
+                {name:'冰镇醉虾',price:56},
+                {name:'蒜蓉粉丝烤扇贝',price:48},
+                {name:'香辣柠檬凤螺',price:42},
+                {name:'盐焗皮皮虾',price:68},
+                {name:'泰式酸辣青口贝',price:52},
+                {name:'香煎黑虎虾',price:55}
+            ]);
+            renderItems('cheese-starchy', [
+                {name:'拉丝芝士焗红薯',price:26},
+                {name:'墨西哥玉米脆片',price:30},
+                {name:'培根芝士焗土豆泥',price:32},
+                {name:'意式番茄肉酱焗意面',price:35},
+                {name:'芝士焗蘑菇',price:30}
+            ]);
+            renderItems('cold-refresh', [
+                {name:'泰式青木瓜沙拉',price:28},
+                {name:'凉拌黄瓜卷',price:18},
+                {name:'手撕鸡丝拌洋葱',price:29},
+                {name:'酸辣厥根粉',price:20},
+                {name:'凉拌秋葵',price:23}
+            ]);
+            renderItems('creative-snacks', [
+                {name:'黑松露芝士焗口蘑',price:38},
+                {name:'烟熏三文鱼塔塔',price:62},
+                {name:'迷你牛肉汉堡',price:42},
+                {name:'蟹肉鱼子酱手握卷',price:55},
+                {name:'香辣金枪鱼玉米塔',price:32},
+                {name:'烤肠拼盘',price:40},
+                {name:'芝士焗紫薯泥',price:28},
+                {name:'日式关东煮',price:36},
+                {name:'抹茶红豆大福',price:25}
+            ]);
+        };
+
+        // 显示通知
+        function showNotification(message, duration = 3000) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, duration);
+        }
+
+        // 选择醒酒汤
+        function selectSoberSoup(type) {
+            // 移除所有选项的选中状态
+            document.querySelectorAll('.soup-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // 添加当前选项的选中状态
+            event.currentTarget.classList.add('selected');
+            
+            const soupNames = {
+                'tomato': '番茄汁',
+                'rice': '米汤',
+                'mungbean': '绿豆汤'
+            };
+            
+            userData.soberSoup = {
+                type: type,
+                name: soupNames[type],
+                selectedAt: new Date().toLocaleString()
+            };
+            
+            showNotification(`已选择${soupNames[type]}`);
+        }
+
+        // 预约醒酒汤
+        function bookCongee() {
+            if (!userData.soberSoup) {
+                showNotification('请先选择一种醒酒汤');
+                return;
+            }
+            
+            userData.services.push({
+                type: 'soberSoup',
+                name: userData.soberSoup.name,
+                bookedAt: new Date().toLocaleString()
+            });
+            
+            showNotification(`已为您预约${userData.soberSoup.name}`);
+        }
+
+        // 选择环境
+        function selectEnvironment(type) {
+            userData.environment = {
+                type: type,
+                selectedAt: new Date().toLocaleString()
+            };
+            
+            showEnvironmentDetails(type);
+            showNotification(`已选择${getEnvironmentName(type)}环境`);
+        }
+
+        // 显示环境详情
+        function showEnvironmentDetails(type) {
+            const container = document.getElementById('environment-details');
+            container.innerHTML='';
+            if(type==='heavy') {
+                container.innerHTML='<h4>【重度热闹环境】</h4><p>蹦迪区域，DJ人员：DJ小强，控场人员：阿康<br>男女分区：女性区域10名安保，男性区域15名安保。</p>';
+            } else if(type==='moderate') {
+                container.innerHTML='<h4>【中度热闹环境】</h4><p>驻唱环境，欢迎聆听：<br>-民谣歌单（每日更新，节奏欢快）</p>';
+            } else if(type==='light') {
+                container.innerHTML='<h4>【轻度热闹环境】</h4><p>提供的小活动：桌上游戏、投影比赛。</p>';
+            } else if(type==='quiet') {
+                container.innerHTML='<h4>【清吧环境】</h4><p>一人一座，间隔20cm，推荐沙发两到三人同行。</p>';
+            }
+        }
+
+        // 获取环境名称
+        function getEnvironmentName(type) {
+            const names = {
+                'heavy': '重度热闹',
+                'moderate': '中度热闹',
+                'light': '轻度热闹',
+                'quiet': '清吧'
+            };
+            return names[type] || type;
+        }
+
+        // 添加选中商品到订单
+        function addSelectedItems(containerId, category) {
+            const checkboxes = document.querySelectorAll(`#${containerId} input[type=checkbox]`);
+            checkboxes.forEach(cb => {
+                if(cb.checked){
+                    const name = cb.dataset.name;
+                    const price = parseFloat(cb.dataset.price);
+                    
+                    // 检查是否已存在
+                    const existingIndex = userData[category].findIndex(item => item.name === name);
+                    if (existingIndex === -1) {
+                        userData[category].push({name, price, quantity: 1});
+                    } else {
+                        userData[category][existingIndex].quantity += 1;
+                    }
+                }
+            });
+        }
+
+        // 提交饮品订单
+        function submitOrder() {
+            // 清空之前的饮品选择
+            userData.drinks = [];
+            
+            // 添加当前已勾选的商品
+            addSelectedItems('milk-tea-list', 'drinks');
+            addSelectedItems('cold-drinks-list', 'drinks');
+            addSelectedItems('mild-intoxication-list', 'drinks');
+            addSelectedItems('medium-alcohol-list', 'drinks');
+            addSelectedItems('heavy-alcohol-list', 'drinks');
+
+            let total = 0;
+            userData.drinks.forEach(item => total += (item.price * item.quantity));
+            
+            showNotification(`已加入${userData.drinks.length}种饮品，总价：¥${total.toFixed(2)}`);
+        }
+
+        // 提交食品订单
+        function submitFoodOrder() {
+            // 清空之前的食品选择
+            userData.food = [];
+            
+            // 添加当前已勾选的商品
+            addSelectedItems('crispy-foods', 'food');
+            addSelectedItems('meat-foods', 'food');
+            addSelectedItems('seafood-foods', 'food');
+            addSelectedItems('cheese-starchy', 'food');
+            addSelectedItems('cold-refresh', 'food');
+            addSelectedItems('creative-snacks', 'food');
+
+            let total = 0;
+            userData.food.forEach(item => total += (item.price * item.quantity));
+            
+            showNotification(`已加入${userData.food.length}种食品，总价：¥${total.toFixed(2)}`);
+        }
+
+        // 预约特殊服务
+        function bookService(type) {
+            const serviceNames = {
+                'sanitary': '女性卫生巾',
+                'changeRoom': '更换衣物间',
+                'accommodation': '住宿',
+                'transport': '出行服务'
+            };
+            
+            userData.services.push({
+                type: type,
+                name: serviceNames[type],
+                bookedAt: new Date().toLocaleString()
+            });
+            
+            showNotification(`已为您预约${serviceNames[type]}`);
+        }
+
+        // 收集个人信息
+        function collectPersonalInfo() {
+            userData.personalInfo = {
+                name: document.getElementById('userName').value,
+                gender: document.getElementById('gender').value,
+                phone: document.getElementById('phone').value,
+                environmentPreference: document.getElementById('environment-type').value,
+                alcoholLevel: document.getElementById('alcohol-level').value,
+                allergy: document.getElementById('allergy').value,
+                purpose: document.getElementById('purpose').value,
+                emergencyContacts: {
+                    contact1: {
+                        name: document.getElementById('emergency1').value,
+                        phone: document.getElementById('emergencyPhone1').value
+                    },
+                    contact2: {
+                        name: document.getElementById('emergency2').value,
+                        phone: document.getElementById('emergencyPhone2').value
+                    }
+                },
+                changeRoom: document.getElementById('changeRoom').checked,
+                accommodation: document.getElementById('accommodation').checked,
+                transport: document.getElementById('transport').checked
+            };
+        }
+
+        // 验证表单
+        function validateForm() {
+            const requiredFields = [
+                {id: 'userName', name: '姓名'},
+                {id: 'gender', name: '性别'},
+                {id: 'phone', name: '手机号码'},
+                {id: 'environment-type', name: '喜好环境'},
+                {id: 'alcohol-level', name: '酒精程度'},
+                {id: 'allergy', name: '过敏史'},
+                {id: 'purpose', name: '目的'},
+                {id: 'emergency1', name: '紧急联系人1姓名'},
+                {id: 'emergencyPhone1', name: '紧急联系人1电话'}
+            ];
+            
+            for (let field of requiredFields) {
+                const element = document.getElementById(field.id);
+                if (!element.value.trim()) {
+                    showNotification(`请填写${field.name}`);
+                    element.focus();
+                    return false;
+                }
+            }
+            
+            // 验证手机号格式
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^1[3-9]\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                showNotification('请输入有效的手机号码');
+                document.getElementById('phone').focus();
+                return false;
+            }
+            
+            return true;
+        }
+
+        // 最终提交全部信息
+        function finalSubmit() {
+            if (!validateForm()) {
+                return;
+            }
+            
+            // 收集所有数据
+            collectPersonalInfo();
+            userData.timestamp = new Date().toLocaleString();
+            
+            // 显示提交的数据
+            displaySubmittedData();
+            
+            // 显示成功消息
+            showNotification('您的所有需求已提交，感谢您的配合！', 5000);
+        }
+
+        // 显示提交的数据
+        function displaySubmittedData() {
+            const dataDisplay = document.getElementById('data-display');
+            const submittedData = document.getElementById('submitted-data');
+            
+            // 格式化数据以便显示
+            const formattedData = JSON.stringify(userData, null, 2);
+            submittedData.textContent = formattedData;
+            
+            dataDisplay.style.display = 'block';
+            dataDisplay.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 下载数据
+        function downloadData() {
+            const dataStr = JSON.stringify(userData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `她方酒吧预约_${new Date().toISOString().slice(0, 10)}.json`;
+            link.click();
+        }
+
+        // 清除数据
+        function clearData() {
+            if (confirm('确定要清除所有数据吗？')) {
+                userData = {
+                    personalInfo: {},
+                    environment: {},
+                    drinks: [],
+                    food: [],
+                    services: [],
+                    soberSoup: null,
+                    timestamp: null
+                };
+                
+                // 重置表单
+                document.querySelectorAll('input, select').forEach(element => {
+                    if (element.type === 'checkbox') {
+                        element.checked = false;
+                    } else if (element.type !== 'button' && element.type !== 'submit') {
+                        element.value = '';
+                    }
+                });
+                
+                // 重置醒酒汤选择
+                document.querySelectorAll('.soup-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                document.getElementById('data-display').style.display = 'none';
+                showNotification('数据已清除');
+            }
+        }
+    </script>
+</body>
+</html>
